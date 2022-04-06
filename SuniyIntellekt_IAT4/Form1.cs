@@ -30,6 +30,7 @@ namespace SuniyIntellekt_IAT4
 
         private void Form1_Load(object sender, EventArgs e)
         {           
+            // testc uchun commend
             label2.Visible = false;
             textBox3.Visible = false;
             dataGridView2.Visible = false;
