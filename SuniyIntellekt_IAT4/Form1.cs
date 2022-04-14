@@ -197,8 +197,7 @@ namespace SuniyIntellekt_IAT4
                         dataGridView1.Rows[k].Cells[i].Value = (double.Parse(dataGridView1.Rows[k].Cells[i].Value.ToString()) - qator[0]) / (qator[qator.Count - 1] - qator[0]);
                     }
                     qator.Clear();
-                }                    
-            
+                }  
         }
         public void Nuqta_Vergul()
         {
