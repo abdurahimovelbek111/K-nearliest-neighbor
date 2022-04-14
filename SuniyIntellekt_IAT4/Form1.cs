@@ -9,8 +9,9 @@ namespace SuniyIntellekt_IAT4
     public partial class Form1 : Form
     {
         public List<int> Sinf = new List<int>();
-        public List<object> qiymat = new List<object>();
-        public List<double> Max = new List<double>();   
+        public List<double> qiymat = new List<double>();
+        public List<double> Max = new List<double>();
+        SortedList<double, int> qiy_sinf = new SortedList<double, int>();
         public string path;
         public Form1()
         {
@@ -28,19 +29,12 @@ namespace SuniyIntellekt_IAT4
         
 
         private void Form1_Load(object sender, EventArgs e)
-        {           
-           
-            label2.Visible = false;
-            textBox3.Visible = false;
-            dataGridView2.Visible = false;
-            button3.Visible = false;
-            dataGridView3.Visible = false;
-            
+        {
+            panel1.Visible = false;         
             Read();            
         }
         public void Read()
-        {                     
-            label2.Visible = false;
+        {   
             textBox1.Visible = true;
             button1.Visible = true;
             using (StreamReader reader = new StreamReader(path))
@@ -114,30 +108,28 @@ namespace SuniyIntellekt_IAT4
         }
         public void Chop_Etish()
         {
+            Sort();
             string[] qatorr = "Distance Class".Split(' ');
             DataTable dataTable = new DataTable();
             foreach (var ustun in qatorr)
             {
                 dataTable.Columns.Add(ustun);
             }
-            int soni = qiymat.Count, j = 0;
-            while (soni != 0)
+            foreach (var item in qiy_sinf)
             {
                 DataRow dataRow = dataTable.NewRow();
                 for (int i = 0; i < 2; i++)
                 {
                     if (i == 1)
                     {
-                        dataRow[i] = Sinf[j];
+                        dataRow[i] = item.Value;
                     }
                     else
-                        dataRow[i] = qiymat[j];
-                }
-                j++;
+                        dataRow[i] = item.Key;
+                }                
                 dataTable.Rows.Add(dataRow);
-                soni--;
             }
-            dataGridView3.DataSource = dataTable;
+            dataGridView1.DataSource = dataTable;
         }
         public void Chebishev()
         {   
@@ -154,7 +146,8 @@ namespace SuniyIntellekt_IAT4
                             Max.Add(Math.Abs((double.Parse(Satr_element[i]) - double.Parse(kor[i]))));
                         }
                         Max.Sort();
-                        qiymat.Add(Max[Max.Count-1]);                  
+                        qiymat.Add(Max[Max.Count-1]);
+                       Max.Clear();
                 }                
                 Chop_Etish();
             }
@@ -191,7 +184,7 @@ namespace SuniyIntellekt_IAT4
             //}
             //if(ustun==X.Length || ustun<X.Length)
             //{              
-            for (int i = 0; i < ustun; i++)
+                for (int i = 0; i < ustun; i++)
                 {
                     for (int j = 0; j < dataGridView1.Rows.Count; j++)
                     {
@@ -234,46 +227,37 @@ namespace SuniyIntellekt_IAT4
             for (int i = 0; i < vergul.Count; i++)
             {
                 File.AppendAllText(path, $"{vergul[i]}\n");
-            }
-          //  MessageBox.Show("Zo'r Maladess");
+            }        
             Read();
         }
         
         private void button1_Click(object sender, EventArgs e)
-        {            
-            dataGridView3.Visible = true;
+        {
+            comboBox1.Visible = false;
+            label3.Visible = false;
             textBox1.Visible = false;
             button1.Visible = false;            
-            label2.Visible = false;
-            dataGridView1.Visible = false;
-            label5.Visible = false;
+            label2.Visible = true;            
+            label5.Visible = false;           
             switch (comboBox1.Text)
             {
-                case"Yevkilid":                  
-                    Yevkilid_Metirkasi();                    
+                case "Yevkilid":                    
+                    Yevkilid_Metirkasi();
                     break;
-                case"Chebishev":
+                case "Chebishev":                   
                     Chebishev();
                     break;
                 case "Manxetton":
-                    
                     Manxetton();
                     break;
                 default:
                     break;
             }
-            Sort(); 
-            dataGridView2.Visible = true;
-            button3.Visible = true;
-            label2.Visible = true;
-            label4.Visible = false;
+            panel1.Visible = true;
+            label4.Visible = true;
             label1.Visible = false;
-            comboBox1.Visible = false;
-            label3.Visible = false;
-            button1.Visible = false;
-            
+            Normalashtirish();
         }
-
         private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
@@ -291,67 +275,16 @@ namespace SuniyIntellekt_IAT4
                 textBox1.Text = x;
             }
         }
-
-        #region Vaqtinchalik
-        private void button2_Click(object sender, EventArgs e)
-        {
-            #region Vaqtinchalik
-            //int f = 0;
-            //foreach (var item in qiy_sinf)
-            //{
-            //    string[] row = item.ToString().Split(' ', ']', '[', '}', '{');
-            //    for (int i = 0; i < row.Length; i++)
-            //    {
-            //        if (row[i] == "")
-            //        {
-            //            continue;
-            //        }
-            //        else
-            //        {
-            //            string x = row[i];
-            //            if (x[x.Length - 1] == ',')
-            //            {
-            //                var qat = x.Remove(x.Length - 1, 1);
-            //                stack.Push(qat);
-            //            }
-            //            else
-            //            {
-            //                stack.Push(x);
-            //            }
-            //        }
-            //    }
-            //    List<object> vs = new List<object>();
-            //    while (stack.Count != 0)
-            //    {
-            //        vs.Add(stack.Pop());
-            //    }
-            //    dataRow[0] = qiymat[f];
-            //    //dataRow[0] = Sinf[f];
-            //    f++;
-            //    dataTable.Rows.Add(dataRow);
-            //break;
-            //}
-            #endregion
-            string x = textBox1.Text;
-            textBox1.Text = "";
-            try
-            {
-                var qatot = x.Remove(x.Length - 2, 2);               
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Xatolik turi : {ex}");
-            }
-        }
-        #endregion
         public void Sort()
-        {           
-            dataGridView3.Sort(dataGridView3.Columns["Distance"], ListSortDirection.Ascending);
-            textBox3.Visible = true;
+        {
+            for (int i = 0; i < qiymat.Count; i++)
+           {
+                qiy_sinf.Add(qiymat[i], Sinf[i]);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
-        {
+        {            
             dataGridView2.Rows.Clear();
             int birr = 0, ikkii = 0;
             for (int i = 0; i < Sinf.Count; i++)
@@ -371,19 +304,19 @@ namespace SuniyIntellekt_IAT4
             else
                 l = 2 * birr - 1;
 
-             MessageBox.Show($"1-Sinf elementlar soni : {birr} , 2-Sinf elementlar soni : {ikkii}");
+            // MessageBox.Show($"1-Sinf elementlar soni : {birr} , 2-Sinf elementlar soni : {ikkii}");
             int k = int.Parse(textBox3.Text),bir=0,ikki=0;
             if (k <= l)
             {
                 if (k % 2 != 0)
                 {
-                    foreach (DataGridViewRow row in dataGridView3.Rows)
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
                         int i = dataGridView2.Rows.Add();
 
-                        foreach (DataGridViewColumn col in dataGridView3.Columns)
+                        foreach (DataGridViewColumn col in dataGridView1.Columns)
                         {
-                            dataGridView2.Rows[i].Cells[col.Index].Value = dataGridView3.Rows[row.Index].Cells[col.Index].Value.ToString();
+                            dataGridView2.Rows[i].Cells[col.Index].Value = dataGridView1.Rows[row.Index].Cells[col.Index].Value.ToString();
                             if (double.Parse(dataGridView2.Rows[row.Index].Cells[col.Index].Value.ToString()) == 1)
                             {
                                 bir++;
@@ -420,8 +353,12 @@ namespace SuniyIntellekt_IAT4
                 {
                     MessageBox.Show($"Kiritgan {k}--> sonimiz juft bulishi mumkin emas . Iltimos k ni qaytadan kiriting!!!");
                 }
-                MessageBox.Show($"Kiritgan {k} -- miz  {l++} -- dan kichik son kiriting . Iltimos k ni qaytadan kiriting!!!");
+                else
+                {
+                     MessageBox.Show($"Kiritgan {k} -- miz  {l++} -- dan kichik son kiriting . Iltimos k ni qaytadan kiriting!!!");
+                }
             }
+            
             
            
         }
@@ -437,51 +374,44 @@ namespace SuniyIntellekt_IAT4
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox1.Text == "Yevkilid" || comboBox1.Text == "Chebishev" || comboBox1.Text == "Manxetton")
-            {
-                dataGridView1.Visible = true;
-                button1.Visible = true;
-                textBox1.Visible = true;
-                dataGridView2.Visible = false;
-                label2.Visible = false;
-                textBox3.Visible = false;
-                button3.Visible = false;                
-               // Read(); 
-                dataGridView3.Visible = false;
-                label1.Visible = true;
-                label4.Visible = true;                
+            {               
+                qiymat.Clear();
+                qiy_sinf.Clear();
+                Sinf.Clear();               
             }
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
-
+            
         }
         private void label1_Click(object sender, EventArgs e)
         {
-           // Nuqta_Vergul();
+            Nuqta_Vergul();
             Normalashtirish();
         }
-
         private void label4_Click(object sender, EventArgs e)
-        {         
+        {
             Read();
+            dataGridView1.Visible = true;
+            button1.Visible = true;
+            textBox1.Visible = true;
+            panel1.Visible = false;
+            label1.Visible = true;
+            label4.Visible = true;
+            comboBox1.Visible = true;
+            label3.Visible = true; 
+            label5.Visible = true;
         }
-
         private void label5_Click(object sender, EventArgs e)
         {
             Form2 form = new Form2(path);
             form.Show();
-        }
-
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-           
-        }
-
+        }           
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
-        }
+        }        
     }
 }
 
