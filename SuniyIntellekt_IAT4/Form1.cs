@@ -30,7 +30,8 @@ namespace SuniyIntellekt_IAT4
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            panel1.Visible = false;         
+            panel1.Visible = false;
+            Nuqta_Vergul();
             Read();            
         }
         public void Read()
