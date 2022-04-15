@@ -131,6 +131,7 @@ namespace SuniyIntellekt_IAT4
                 dataTable.Rows.Add(dataRow);
             }
             dataGridView1.DataSource = dataTable;
+            qiy_sinf.Clear();
         }
         public void Chebishev()
         {   
@@ -232,13 +233,10 @@ namespace SuniyIntellekt_IAT4
         }
         
         private void button1_Click(object sender, EventArgs e)
-        {
-            comboBox1.Visible = false;
-            label3.Visible = false;
+        {       
             textBox1.Visible = false;
             button1.Visible = false;            
-            label2.Visible = true;            
-            label5.Visible = false;           
+            label2.Visible = true;                                
             switch (comboBox1.Text)
             {
                 case "Yevkilid":                    
@@ -254,7 +252,7 @@ namespace SuniyIntellekt_IAT4
                     break;
             }
             panel1.Visible = true;
-            label4.Visible = true;
+          
             label1.Visible = false;
             Normalashtirish();
         }
@@ -281,15 +279,27 @@ namespace SuniyIntellekt_IAT4
            {
                 qiy_sinf.Add(qiymat[i], Sinf[i]);
             }
+            qiymat.Clear();
+            Sinf.Clear();
         }
 
         private void button3_Click(object sender, EventArgs e)
-        {            
+        {
+            List<int> sinf = new List<int>();
+            using(StreamReader reader=new StreamReader(path))
+            {
+                string newline;
+                while ((newline=reader.ReadLine())!=null)
+                {
+                    string[] X = newline.Split(' ');
+                    sinf.Add(int.Parse(X[X.Length - 1]));
+                }
+            }
             dataGridView2.Rows.Clear();
             int birr = 0, ikkii = 0;
-            for (int i = 0; i < Sinf.Count; i++)
+            for (int i = 0; i < sinf.Count; i++)
             {
-                if(Sinf[i]==1)
+                if(sinf[i]==1)
                 {
                     birr++;
                 }
@@ -303,7 +313,7 @@ namespace SuniyIntellekt_IAT4
                 l = 2 * ikkii - 1;
             else
                 l = 2 * birr - 1;
-
+        
             // MessageBox.Show($"1-Sinf elementlar soni : {birr} , 2-Sinf elementlar soni : {ikkii}");
             int k = int.Parse(textBox3.Text),bir=0,ikki=0;
             if (k <= l)
@@ -374,10 +384,15 @@ namespace SuniyIntellekt_IAT4
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox1.Text == "Yevkilid" || comboBox1.Text == "Chebishev" || comboBox1.Text == "Manxetton")
-            {               
-                qiymat.Clear();
-                qiy_sinf.Clear();
-                Sinf.Clear();               
+            {
+                Read();
+                dataGridView1.Visible = true;
+                button1.Visible = true;
+                textBox1.Visible = true;
+                panel1.Visible = false;
+                label1.Visible = true;               
+                comboBox1.Visible = true;
+                label3.Visible = true;               
             }
         }
 
@@ -392,16 +407,7 @@ namespace SuniyIntellekt_IAT4
         }
         private void label4_Click(object sender, EventArgs e)
         {
-            Read();
-            dataGridView1.Visible = true;
-            button1.Visible = true;
-            textBox1.Visible = true;
-            panel1.Visible = false;
-            label1.Visible = true;
-            label4.Visible = true;
-            comboBox1.Visible = true;
-            label3.Visible = true; 
-            label5.Visible = true;
+           
         }
         private void label5_Click(object sender, EventArgs e)
         {
