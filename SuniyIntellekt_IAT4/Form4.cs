@@ -11,8 +11,8 @@ using System.Windows.Forms;
 namespace SuniyIntellekt_IAT4
 {
     public partial class Form4 : Form
-    {
-        string yul;
+    {        
+        
         string[] lines, line;
         double[,] matrix, temp;
         int n, m;
@@ -26,9 +26,7 @@ namespace SuniyIntellekt_IAT4
 
         private void Form4_Load(object sender, EventArgs e)
         {
-            lines = System.IO.File.ReadAllLines(path);
-
-            //lines = System.IO.File.ReadAllLines(@"E:\VaznIntelektual\VaznIntelektual\bin\Debug\doc.txt");
+            lines = System.IO.File.ReadAllLines(path);   
             line = lines[0].Split(' ');
             //n va m obyektlar va xususiyatlar soni;
             n = lines.Length;
